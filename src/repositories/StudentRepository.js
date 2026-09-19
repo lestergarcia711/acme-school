@@ -1,4 +1,4 @@
-import { pool } from '../config/database';
+import { pool } from '../config/database.';
 import { Student } from '../models/Student.js';
 
 export class StudentRepository{
