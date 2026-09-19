@@ -51,15 +51,16 @@ export class StudentRepository{
         VALUES(?, ? , ?, ?, ?, ?, ?, ?, ?, ?)`;
 
         const params = [
-            studentData.code,
-            studentData.lastName,
-            studentData.identificationTypeId,
-            studentData.identificationNumber,
-            studentData.gender,
-            studentData.birthdate,
-            studentData.email,
-            studentData.address,
-            studentData.cityId
+            studentData.code ?? null,
+            studentData.firstName ?? null,
+            studentData.lastName ?? null,
+            studentData.identificationTypeId ?? studentData.identification_type_id ?? null,
+            studentData.identificationNumber ?? null,
+            studentData.gender ?? null,
+            studentData.birthdate ?? null,
+            studentData.email ?? null,
+            studentData.address ?? null,
+            studentData.cityId ?? studentData.city_id ?? null
         ];
 
         const [result] = await pool.execute(query,params);
