@@ -8,7 +8,7 @@ export class InscriptionRepository{
 
         const executor = connection || pool;
         const query = `
-        INSERT INTO inscriptions (course_schedule, student_id, register_date, active)
+        INSERT INTO inscriptions (course_schedule_id, student_id, register_date, active)
         VALUES(?, ?, ?, 1)`;
 
         const params = [courseScheduleId, studentId, registerDate];
@@ -21,11 +21,11 @@ export class InscriptionRepository{
         }
        
     }
-    async findByStudentAndShedule( studentId, courseScheduleId){
+    async findByStudentAndSchedule( studentId, courseScheduleId){
         try{
           const query = `
             SELECT * FROM inscriptions
-            WHERE student_id = ? AND course_schechule = ? AND active =1`;
+            WHERE student_id = ? AND course_schedule_id = ? AND active =1`;
             const [rows] = await pool.query(query, [studentId, courseScheduleId]);
 
             if (!rows || rows.length === 0) return null;
@@ -47,7 +47,7 @@ export class InscriptionRepository{
          i.register_date
         FROM inscriptions i
         INNER JOIN students s ON i.student_id = s.id
-        INNER JOIN courses_schedules cs ON i.course_schedule = cs.id
+        INNER JOIN courses_schedules cs ON i.course_schedule_id = cs.id
         INNER JOIN teachers t ON cs.teacher_id = t.id
         INNER JOIN classrooms cl ON  cs.classroom_id = cl.id
         WHERE i.active = 1

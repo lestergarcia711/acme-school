@@ -26,12 +26,12 @@ export class InscriptionService {
             throw new Error (`El estudiante ${student.getFullName()} ya esta inscrito en este curso u horario.`);
         }
 
-        const connection = await pool.getconnection();
+        const connection = await pool.getConnection();
 
         try{
             await connection.beginTransaction();
 
-            console.Console.log('Transaccion iniciada: Guardando inscripcion...');
+            console.log('Transaccion iniciada: Guardando inscripcion...');
 
             const inscriptionId = await this.inscriptionRepo.save({
                 studentId,
@@ -48,7 +48,7 @@ export class InscriptionService {
                 message: ` Estudiante ${student.getFullName()} inscrito exitosamente.`
             };
         }catch(error){
-            await connection,rollback();
+            await connection.rollback();
             console.error('Error durante el proceso. Transaccion revertida.')
             throw new Error(`Fallo en la inscripcion: ${error.message}`);
         }finally{

@@ -24,7 +24,7 @@ export class CLIApp{
        
         while (running){
             this.showMainMenu();
-            const option = await this.rl.question('\n->Elije una opcion (1-5):');
+            const option = await this.rl.question('\n->Elije una opcion(0-4):');
             
             switch(option.trim()){
                 case '1':
@@ -66,15 +66,15 @@ export class CLIApp{
             async handleRegisterStudent(){
                 console.log('\n ---- REGISTRO DE NUEVO ESTUDIANTE ----');
                 try{
-                    const firstName = await this.rlquestion('Nombre:');
-                    const lastName = await this.rlquestion('Apelido:');
-                    const identificationTypeId = await this.rlquestion('Id/identificacion');
-                    const identificationNumber = await this.rlquestion('Numero Identificacion:');
-                    const gender = await this.rlquestion(' Genero Masculino/Femenino:');
-                    const birthdate = await this.rlquestion('Fecha de nacimiento(YYY-MM-DD:');
-                    const email = await this.rlquestion('Correo Electronico: ');
-                    const address= await this.rlquestion('Direccion de Residencia:');
-                    const cityId= await this.rlquestion('Id ciudad (ej.1)');
+                    const firstName = await this.rl.question('Nombre:');
+                    const lastName = await this.rl.question('Apellido:');
+                    const identificationTypeId = await this.rl.question('Id/identificacion (ej: 1):');
+                    const identificationNumber = await this.rl.question('Numero Identificacion:');
+                    const gender = await this.rl.question('Genero Masculino/Femenino:');
+                    const birthdate = await this.rl.question('Fecha de nacimiento(YYY-MM-DD):');
+                    const email = await this.rl.question('Correo Electronico: ');
+                    const address= await this.rl.question('Direccion de Residencia:');
+                    const cityId= await this.rl.question('Id ciudad (ej.1):');
 
                     const code = `STU-${Date.now().toString().slice(-4)}`;
 
@@ -127,10 +127,10 @@ export class CLIApp{
             async handleEnrollStudent(){
                 console.log('\n --- PROCESO DE MATRICULA E INSCRIPCION ---');
                 try{
-                    const studentId = await this.rlquestion('Ingrese el Id del estudiante:');
-                    const courseScheduleId = await this.rlquestion(' Ingrese el Id de horario/oferta del curso:');
+                    const studentId = await this.rl.question('Ingrese el Id del estudiante:');
+                    const courseScheduleId = await this.rl.question(' Ingrese el Id de horario/oferta del curso:');
 
-                    const result = await this.inscriptionService.enrollstudent({
+                    const result = await this.inscriptionService.enrollStudent({
                         studentId: Number(studentId),
                         coursescheduleId: Number(courseScheduleId)
                     });
