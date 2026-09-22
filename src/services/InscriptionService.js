@@ -34,8 +34,8 @@ export class InscriptionService {
             console.log('Transaccion iniciada: Guardando inscripcion...');
 
             const inscriptionId = await this.inscriptionRepo.save({
-                studentId,
-                courseScheduleId,
+                studentId:Number(studentId),
+                courseScheduleId: Number(courseScheduleId),
                 registerDate: new Date()
             }, connection);
 

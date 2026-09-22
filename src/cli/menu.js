@@ -1,4 +1,4 @@
-import readline from 'readline/promises';
+import readline from 'readline/promises'; 
 import {stdin as input, stdout as output} from 'process';
 import { StudentRepository } from '../repositories/StudentRepository.js';
 import { InscriptionService } from '../services/InscriptionService.js';
@@ -132,7 +132,7 @@ export class CLIApp{
 
                     const result = await this.inscriptionService.enrollStudent({
                         studentId: Number(studentId),
-                        coursescheduleId: Number(courseScheduleId)
+                        courseScheduleId: Number(courseScheduleId)
                     });
 
                     console.log(`\n ${result.message}`);
