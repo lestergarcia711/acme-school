@@ -2,7 +2,7 @@ import { pool } from '../config/database.js';
 import { Student } from '../models/Student.js';
 
 export class StudentRepository{
-
+    constructor(db) {this.db = db;}
     #mapToEntity(row){
         if(!row)return null;
         return new Student({
@@ -31,13 +31,11 @@ export class StudentRepository{
 
     async findById(id){
         try {
-            const query = 'SELECT * FROM students WHERE id = ?';
-        const [rows]= await pool.query(query, [id]);
-        
-        if (rows.length === 0) return null;
-        return this.#mapToEntity(rows[0]);
+         const [rows] = await this.db.query ( 'SELECT * FROM students WHERE id = ?',[id]);
+         return rows.length ? this.#mapToEntity(rows[0]) : null;
+         
         }catch(error){
-            throw new Error(`Error al buscar estudiante por ID $i{id}: ${error.message}`);
+            throw new Error(`Error al buscar estudiante por ID ${id}: ${error.message}`);
 
         }
     }

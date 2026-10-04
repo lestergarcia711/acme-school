@@ -118,7 +118,7 @@ export class CLIApp{
                  console.table(formattedList);
 
                 }catch(error){
-                    console.log(`\n Error al listar estudiantes: ${error,message}`);
+                    console.log(`\n Error al listar estudiantes: ${error.message}`);
                     
 
                 }
@@ -145,7 +145,7 @@ export class CLIApp{
                 console.log('\n --- REPORTES DE INSCRIPCIONES ACTIVAS ---');
                 try{
                     const enrollments= await this.inscriptionService.getEnrollmentReport();
-                    if(enrollments.legth === 0){
+                    if(enrollments.length === 0){
                         console.log('No hay incripciones registradas.');
                         return;
                     }

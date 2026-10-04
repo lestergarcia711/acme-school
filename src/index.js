@@ -6,14 +6,12 @@ async function main(){
          await testConnection();
          const app = new CLIApp();
          await app.start();
-
     }catch(error){
-        console.error('Error  critico al iniciar la aplicacion:', error.message);
-
+         console.error('Error critico al iniciar la aplicacion;', error.message);
+         process.exitCode =1;
     }finally{
         await pool.end();
-        console.log('Conexion a MYSQL liberada. Proceso finalizado.');
-        process.exit(0);
+        console.log('Conexion a MySQL liberada.Proceso finalizado.');
     }
 }
 

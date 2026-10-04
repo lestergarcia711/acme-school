@@ -15,13 +15,12 @@ export const pool = mysql.createPool({
 
 });
 
-export async function testConnection(){
-    try{
-        const connection = await pool.getConnection();
-        console.log(' La conexion a la base de datos Mysql ha sido establecida correctamente');
-
-    }catch(error){
-        console.error(' Error al conectar con la base de datos:', error.message);
-        process.exit(1)
-    }
+export async function testConnection() {
+  const connection = await pool.getConnection();
+  try {
+    await connection.ping();
+    console.log('Conexion a MySQL establecida correctamente');
+  } finally {
+    connection.release();
+  }
 }
