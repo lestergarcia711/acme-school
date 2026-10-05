@@ -152,7 +152,7 @@ Liberación de conexiones MySQL
 
 ## Estructura del Proyecto
 
-El proyecto está organizado mediante una estructura modular que separa las responsabilidades de la aplicación. Esta organización permite mantener el código más ordenado, facilitar su mantenimiento y separar la interacción con el usuario, la lógica de negocio, el acceso a datos y la configuración de la base de datos.
+El proyecto está organizado mediante una estructura modular que separa las responsabilidades de la aplicación. Esta organización permite mantener el código más ordenado, facilitar su mantenimiento y separar la interacción con el usuario, la lógica de negocio, el acceso a datos y la configuración de la base de datos.La estructura esta sigue creciendo acorde a funcionalidades agregadas.
 
 ```text
 src/
@@ -356,13 +356,10 @@ mysql2
 Puedes consultar las versiones instaladas directamente en `package.json`.
 
 ## Scripts disponibles
-
-Actualmente el proyecto no cuenta con un script de ejecución personalizado en `package.json`.
-
-Por esta razón, la aplicación puede iniciarse directamente mediante:
+La aplicacion puede inicilaizarse con:
 
 ```bash
-node src/index.js
+npm start
 ```
 
 ## Estado del proyecto
