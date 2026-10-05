@@ -1,12 +1,10 @@
 import readline from 'readline/promises'; 
 import {stdin as input, stdout as output} from 'process';
-import { StudentRepository } from '../repositories/StudentRepository.js';
-import { InscriptionService } from '../services/InscriptionService.js';
 
 export class CLIApp{
-    constructor(){
-        this.studentRepo = new StudentRepository();
-        this.inscriptionService = new InscriptionService();
+    constructor({studentService, inscriptionService}){
+        this.studentService = studentService;
+        this.inscriptionService = inscriptionService;
         this.rl = null ;
     }
 
@@ -76,22 +74,17 @@ export class CLIApp{
                     const address= await this.rl.question('Direccion de Residencia:');
                     const cityId= await this.rl.question('Id ciudad (ej.1):');
 
-                    const code = `STU-${Date.now().toString().slice(-4)}`;
-
-                    const newId = await this.studentRepo.save({
-                        code,
-                        firstName,
-                        lastName,
-                        identificationTypeId: Number(identificationTypeId),
+                    const {id, code} = await this.studentService.register({
+                        firstName, lastName,
+                        identificationTypeId: Number (identificationTypeId),
                         identificationNumber,
-                        gender,
-                        birthdate,
-                        email,
-                        address,
+                        gender, 
+                        birthdate, 
+                        email,address,
                         cityId: Number(cityId)
-                    });
+                    })
 
-                    console.log(`\n Estudiante guardado con exito con el codigo ${code} e id [${newId}]`);
+                    console.log(`\n Estudiante guardado con exito con el codigo ${code} e id [${id}]`);
 
                 }catch(error){
                     console.log (`\n Error al registrar estudiante: ${error.message}`);
@@ -102,7 +95,7 @@ export class CLIApp{
             async handleListStudents(){
                 console.log('\n--- LISTADO DE ESTUDIANTES ---');
                 try{
-                 const students = await this.studentRepo.findAll();
+                 const students = await this.studentService.list();
                  if(students.length === 0){
                     console.log('No hay estudiantes registrados en la base de datos.');
                     return;

@@ -107,3 +107,26 @@ comments VARCHAR(250) NULL,
 CONSTRAINT fk_rates_insc FOREIGN KEY (inscription_id) REFERENCES inscriptions(id)
 ) ENGINE=InnoDB;
 
+-- Estos datos son de prueba para la base de datos acme_school, se pueden eliminar si no son necesarios.
+-- En este caso por motivos de prueba se insertan datos en las tablas identification_types, cities, teachers, 
+-- classrooms, courses y courses_schedules.
+
+USE acme_school;
+
+INSERT INTO identification_types (code, name) VALUES
+  ('DPI', 'Documento Personal de Identificacion'),
+  ('PAS', 'Pasaporte');
+
+INSERT INTO cities (code, name)
+ VALUES ('GUA', 'Guatemala'), ('MEX', 'Mexico');
+
+INSERT INTO teachers (firstName, lastName, identification_type_id, identificationNumber, email)
+  VALUES ('Ana', 'Lopez', 1, '1234567890101', 'ana@acme.test');
+
+INSERT INTO classrooms (code, description, capacity) VALUES ('A-101', 'Aula 101', 30);
+
+INSERT INTO courses (code, description, intensity, weight)
+  VALUES ('MAT-01', 'Matematicas I', 4, 10);
+
+INSERT INTO courses_schedules (course_id, teacher_id, classroom_id, start_date, end_date)
+  VALUES (1, 1, 1, '2026-11-02 08:00:00', '2026-12-18 10:00:00');

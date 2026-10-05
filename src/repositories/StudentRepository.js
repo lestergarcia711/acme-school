@@ -1,4 +1,3 @@
-import { pool } from '../config/database.js';
 import { Student } from '../models/Student.js';
 
 export class StudentRepository{
@@ -22,7 +21,7 @@ export class StudentRepository{
     async findAll(){
         try{
             const query = 'SELECT * FROM students';
-        const [rows]= await pool.query(query);
+        const [rows]= await this.db.query(query);
         return rows.map(row => this.#mapToEntity(row));
         }catch(error){
             throw new Error(`Error al obtener estudiantes: ${error.message}`);
@@ -61,7 +60,7 @@ export class StudentRepository{
             studentData.cityId ?? studentData.city_id ?? null
         ];
 
-        const [result] = await pool.execute(query,params);
+        const [result] = await this.db.execute(query,params);
         return result.insertId;
      }catch(error){
         throw new Error(`Error al guardar el estudiante: ${error.message}`);

@@ -1,13 +1,8 @@
-import { pool} from '../config/database.js';
-import { StudentRepository } from '../repositories/StudentRepository.js';
-import { InscriptionRepository } from '../repositories/IncriptionRepository.js';
-
-
 export class InscriptionService {
-    constructor(){
-        this.studentRepo = new StudentRepository();
-        this.inscriptionRepo = new InscriptionRepository();
-
+    constructor({studentRepo, inscriptionRepo, tx}){
+        this.studentRepo = studentRepo;
+        this.inscriptionRepo = inscriptionRepo;
+        this.tx = tx;
     }
 
     async enrollStudent({
@@ -25,35 +20,19 @@ export class InscriptionService {
         if (existingEnrollment){
             throw new Error (`El estudiante ${student.getFullName()} ya esta inscrito en este curso u horario.`);
         }
-
-        const connection = await pool.getConnection();
-
-        try{
-            await connection.beginTransaction();
-
-            console.log('Transaccion iniciada: Guardando inscripcion...');
-
-            const inscriptionId = await this.inscriptionRepo.save({
-                studentId:Number(studentId),
-                courseScheduleId: Number(courseScheduleId),
-                registerDate: new Date()
-            }, connection);
-
-            await connection.commit();
-            console.log('Transaccion completada exitosamente.');
-
-            return{
-                success: true,
-                inscriptionId,
-                message: ` Estudiante ${student.getFullName()} inscrito exitosamente.`
-            };
-        }catch(error){
-            await connection.rollback();
-            console.error('Error durante el proceso. Transaccion revertida.')
-            throw new Error(`Fallo en la inscripcion: ${error.message}`);
-        }finally{
-            connection.release();
-        }
+        const inscriptionId = await this.tx.run((connection) =>
+         this.inscriptionRepo.save({
+             studentId: Number(studentId),
+             courseScheduleId: Number(courseScheduleId),
+             registerDate: new Date()
+         }, connection)
+      ) ;
+        
+        return{
+            success: true,
+            inscriptionId,
+            message: `Estudiante ${student.getFullName()} inscrito exitosamente.`
+        };
 
     }
     async getEnrollmentReport(){
